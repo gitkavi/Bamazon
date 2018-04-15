@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+const table = require('console.table');
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -39,7 +40,7 @@ function menu() {
         else if (response.options === "Add New Product") {
             addProduct();
         }
-        else if (options.product_sales === "Quit"){
+        else if (response.options === "Quit"){
             console.log("Good Bye!");
             connection.end();
         }
@@ -51,10 +52,12 @@ function viewProduct(){
         if(err){
             return console.log(err);
         }
-        console.log("Item ID   |  Item          |  Price   |Quantity\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        var result = [];
+        result.push(["\n| Item ID", "| Item", "| Price"]);
         for ( var i =0; i< data.length; i++){
-            console.log("   "+data[i].item_id+"      |  "+data[i].product_name+"   |  "+  data[i].price.toFixed(2)+"   |   "+data[i].stock_quantity);
+            result.push(["| "+data[i].item_id,"| "+data[i].product_name,"| "+data[i].price.toFixed(2)]);
         }
+        console.table(result[0],result.slice(1));
         menu();
     });
 }
@@ -64,10 +67,12 @@ function viewInventory(){
         if (err){
             return console.log(err);
         }
-        console.log("Product    |   Quantity\n~~~~~~~~~~~~~~~~~~~~~~~");
+        var result = [];
+        result.push(["\n| Product", "| Quantity"]);
         for (var i =0; i<data.length; i++){
-            console.log(data[i].product_name+"   |    "+data[i].stock_quantity);
+            result.push(["| "+data[i].product_name,"| "+data[i].stock_quantity]);
         }
+        console.table(result[0],result.slice(1));
         menu();
     });
 }
