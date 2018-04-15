@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+const table = require('console.table');
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -23,15 +24,17 @@ var connection = mysql.createConnection({
         if (err){
             return console.log(err);
         }
-        console.log("Item ID    Item    Price\n~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        var result = [];
+        result.push(["\n| Item ID", "| Item", "| Price"]);
         for ( var i=0; i< data.length; i++){
-            console.log(data[i].item_id+"       "+data[i].product_name+"    "+  data[i].price.toFixed(2)+"\n");
+            result.push(["| "+data[i].item_id,"| "+data[i].product_name,"| "+data[i].price.toFixed(2)]);
         }
-        selectProduct();
+        console.table(result[0],result.slice(1));
+        purchaseProduct();
       });
   }
   
-  function selectProduct(){
+  function purchaseProduct(){
     inquirer.prompt([
         {
             name: "item_id",
@@ -45,11 +48,13 @@ var connection = mysql.createConnection({
         }
     ]).then(function(response){
         var amount = 0;
-        connection.query("SELECT stock_quantity FROM products WHERE item_id =?",[response.item_id], function(err, data){
+        var sales = 0;
+        connection.query("SELECT stock_quantity, price FROM products WHERE item_id =?",[response.item_id], function(err, data){
             // console.log(data);
             if (data[0].stock_quantity > response.amount){
                 amount = data[0].stock_quantity - response.amount;
-                updateProduct(response.item_id,amount);
+                sales = data[0].price * response.amount;
+                updateProduct(response.item_id,amount, sales);
             }
             else{
                 console.log("Insufficient quantity!");
@@ -58,8 +63,17 @@ var connection = mysql.createConnection({
     });
   }
 
-  function updateProduct(id, amount){
-    connection.query("UPDATE products SET ? WHERE ?",[{stock_quantity:amount},{item_id:id}], function(err, data){
+  function updateProduct(id, amount, sales){
+    connection.query("UPDATE products SET ? WHERE ?",
+    [
+        {
+            stock_quantity:amount,
+            product_sales:sales
+        },
+        {
+            item_id:id
+        }
+    ], function(err, data){
         console.log(data.affectedRows + " products updated!\n");
         showProduct();
     });

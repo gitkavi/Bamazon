@@ -24,7 +24,7 @@ function menu() {
             name: "options",
             type: "list",
             message: "Select your option",
-            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
+            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product", "Quit"]
         }
     ]).then(function (response) {
         if (response.options === "View Products for Sale") {
@@ -38,6 +38,10 @@ function menu() {
         }
         else if (response.options === "Add New Product") {
             addProduct();
+        }
+        else if (options.product_sales === "Quit"){
+            console.log("Good Bye!");
+            connection.end();
         }
     });
 }
