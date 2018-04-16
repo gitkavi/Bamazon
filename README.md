@@ -25,6 +25,14 @@ Bamazon is an Amazon-like storefront command line node app with three roles
         | 1        | Bar Soap     | 10.00
         | 2        | Baby Powder  | 3.00
         | 3        | Adhesive     | 10.00
+  ## Screenshot
+  1. List all the products
+
+  ![Screenshot](./images/bamazonCustomer.png)
+
+  2. Product purchase - check the item_id 8's change.
+
+  ![Screenshot](./images/bamazonCustomer1.png)
 
 `node bamazonManager.js`
   * This app will let the Manager to choose one from any of the following options
@@ -39,16 +47,32 @@ Bamazon is an Amazon-like storefront command line node app with three roles
         | 1        | Bar Soap     | 10.00
         | 2        | Baby Powder  | 3.00
         | 3        | Adhesive     | 10.00
+  ## screenshot
+
+  ![Screenshot](./images/bamazonManager.png)
 
   * View Low Inventory - Will show list all items with an inventory count lower than five.
     
         | Product   | Quantity
         ----------  ----------
         | Bar Soap  | 4
+  
+  ## screenshot
+
+  ![Screenshot](./images/bamazonManager1.png)
+
 
   * Add New Inventory - Will display a prompt that will let the manager "add more" of any item currently in the store.
 
+  ## screenshot - Added stock_quantity 10 twice for the item_id 11
+
+  ![Screenshot](./images/bamazonManager2.png)
+
   * Add New Product - Will allow the manager to add a completely new product to the store.
+
+## screenshot - After adding new product 'chair'
+
+  ![Screenshot](./images/bamazonManager3.png)
 
 `node bamazonSupervisor.js`
   * This app will let you to choose one from any of the following options
@@ -63,4 +87,12 @@ Bamazon is an Amazon-like storefront command line node app with three roles
         | 2              | Home Maintenance  | 2000.00          | 3000.00        | 1000.00
         | 3              | Arts and Crafts   | 3000.00          | 7000.00        | 4000.00
 
+  ## screenshot - View Product Sales by Department
+
+  ![Screenshot](./images/bamazonSupervisor.png)
+
   * Create New Department - Will let the supervisor to add a new department. 
+
+  ## screenshot - After adding new department Electronics
+
+  ![Screenshot](./images/bamazonSupervisor1.png)
